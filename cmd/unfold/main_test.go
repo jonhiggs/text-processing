@@ -4,10 +4,7 @@ import (
 	"testing"
 )
 
-// TestHelloName calls greetings.Hello with a name, checking
-// for a valid return value.
 func TestIsUnfoldable(t *testing.T) {
-
 	var tests = []struct {
 		p    string
 		s    string
@@ -25,6 +22,26 @@ func TestIsUnfoldable(t *testing.T) {
 		got := isUnfoldable(test.s, test.p)
 		if got != test.want {
 			t.Errorf("'%s' and '%s' = %v", test.s, test.p, test.want)
+		}
+	}
+
+}
+
+func TestUnfold(t *testing.T) {
+	var tests = []struct {
+		p    string
+		s    string
+		want string
+	}{
+		{"one", "two", "one two"},
+		{"   one", "  two    ", "   one two"},
+	}
+
+	// The execution loop
+	for _, test := range tests {
+		got := unfold(test.s, test.p)
+		if got != test.want {
+			t.Errorf("'%s' and '%s' = '%s', got '%s'", test.s, test.p, test.want, got)
 		}
 	}
 
