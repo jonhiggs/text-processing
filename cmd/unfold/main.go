@@ -22,7 +22,7 @@ func main() {
 			if isUnfoldable(p, s) {
 				p = unfold(s, p)
 			} else {
-				fmt.Printf("%s\n\n", p)
+				fmt.Printf("%s\n", p)
 				p = s
 			}
 		}
@@ -45,6 +45,10 @@ func unfold(s, p string) string {
 // return true if s should be folded into p
 func isUnfoldable(s, p string) bool {
 	if strings.TrimSpace(p) == "" {
+		return false
+	}
+
+	if strings.TrimSpace(s) == "" {
 		return false
 	}
 

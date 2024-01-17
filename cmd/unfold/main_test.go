@@ -13,11 +13,11 @@ func TestIsUnfoldable(t *testing.T) {
 		{"", "A Heading", false},
 		{"one", "two", true},
 		{"- item", "- item", false},
+		{"word", "", false},
 		{"hyphenated-", "word", true},
 		{"", "", false},
 	}
 
-	// The execution loop
 	for _, test := range tests {
 		got := isUnfoldable(test.s, test.p)
 		if got != test.want {
@@ -37,7 +37,6 @@ func TestUnfold(t *testing.T) {
 		{"   one", "  two    ", "   one two"},
 	}
 
-	// The execution loop
 	for _, test := range tests {
 		got := unfold(test.s, test.p)
 		if got != test.want {
