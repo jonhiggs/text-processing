@@ -37,12 +37,12 @@ func main() {
 	}
 }
 
-// take two strings and either unfold them into one string
+// take two strings and unfold them into one
 func unfold(s, p string) string {
 	return fmt.Sprintf("%s %s", p, strings.TrimSpace(s))
 }
 
-// return true if s should be folded into p
+// return true if s should be unfolded into p
 func isUnfoldable(s, p string) bool {
 	if strings.TrimSpace(p) == "" {
 		return false
