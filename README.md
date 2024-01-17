@@ -2,6 +2,6 @@
 
 A collection of tools to assist with text processing.
 
-- demarkdown
+- `demarkdown`: remove formatting from Markdown documents.
 - org
-- unfold
+- `unfold`: reverse the `fold` operation.
