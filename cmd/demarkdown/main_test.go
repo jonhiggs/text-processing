@@ -112,13 +112,13 @@ func TestStripLinkReference(t *testing.T) {
 		s    string
 		want string
 	}{
-		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle", ""},
-		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle \"Hobbit lifestyles\"", ""},
-		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle 'Hobbit lifestyles'", ""},
-		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle (Hobbit lifestyles)", ""},
-		{"[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> \"Hobbit lifestyles\"", ""},
-		{"[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> 'Hobbit lifestyles'", ""},
-		{"[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> (Hobbit lifestyles)", ""},
+		{"[1]: https://abc.com#Lifestyle", ""},
+		{"[1]: https://abc.com#Lifestyle \"blah blah\"", ""},
+		{"[1]: https://abc.com#Lifestyle 'blah blah'", ""},
+		{"[1]: https://abc.com#Lifestyle (blah blah)", ""},
+		{"[1]: <https://abc.com/blah/Blah#Lifestyle> \"blah blah\"", ""},
+		{"[1]: <https://abc.com/blah/Blah#Lifestyle> 'blah blah'", ""},
+		{"[1]: <https://abc.com/blah/Blah#Lifestyle> (blah blah)", ""},
 	}
 
 	for _, test := range tests {
