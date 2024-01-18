@@ -26,7 +26,11 @@ func sentences(p string) []string {
 	str := strings.Split(p, ". ")
 
 	for i, s := range str {
-		str[i] = fmt.Sprintf("%s.", s)
+		if i != len(str)-1 {
+			str[i] = fmt.Sprintf("%s.", s)
+		}
+
+		str[i] = strings.TrimSpace(str[i])
 	}
 
 	return str
