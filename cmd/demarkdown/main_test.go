@@ -75,3 +75,38 @@ func TestStripBold(t *testing.T) {
 		}
 	}
 }
+
+func TestStripLink(t *testing.T) {
+	var tests = []struct {
+		s    string
+		want string
+	}{
+		{"[x](y)", "x"},
+		{"one [two](three)", "one two"},
+	}
+
+	for _, test := range tests {
+		got := stripLink(test.s)
+		if got != test.want {
+			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
+		}
+	}
+}
+
+func TestStripImage(t *testing.T) {
+	var tests = []struct {
+		s    string
+		want string
+	}{
+		{"![x](y)", "[x]"},
+		{"one ![two](three)", "one [two]"},
+		{"[x](y)", "[x](y)"},
+	}
+
+	for _, test := range tests {
+		got := stripImage(test.s)
+		if got != test.want {
+			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
+		}
+	}
+}

@@ -17,6 +17,8 @@ func main() {
 		s = stripHeading(s)
 		s = stripCode(s)
 		s = stripBold(s)
+		s = stripImage(s)
+		s = stripLink(s)
 		fmt.Println(s)
 	}
 
@@ -43,4 +45,14 @@ func stripCode(s string) string {
 // return the string without bold tags
 func stripBold(s string) string {
 	return regexp.MustCompile(`\*\*`).ReplaceAllString(s, "")
+}
+
+// return the string without links
+func stripLink(s string) string {
+	return regexp.MustCompile(`\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `$1`)
+}
+
+// return the string without images   XXX: must be called before stripLink()
+func stripImage(s string) string {
+	return regexp.MustCompile(`!\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `[$1]`)
 }
