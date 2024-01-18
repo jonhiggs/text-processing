@@ -41,7 +41,7 @@ func stripHeading(s string) string {
 
 // return the string without code
 func stripCode(s string) string {
-	return regexp.MustCompile("`[^`]*`").ReplaceAllString(s, `<CODE>`)
+	return regexp.MustCompile("`[^`]+`").ReplaceAllString(s, `<CODE>`)
 }
 
 // return the string without bold or italic tags

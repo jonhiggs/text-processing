@@ -50,6 +50,7 @@ func TestStripCode(t *testing.T) {
 	}{
 		{"`code`", "<CODE>"},
 		{"a string with `code`", "a string with <CODE>"},
+		{"```python", "```python"},
 	}
 
 	for _, test := range tests {
