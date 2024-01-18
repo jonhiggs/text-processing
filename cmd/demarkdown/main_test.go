@@ -60,16 +60,19 @@ func TestStripCode(t *testing.T) {
 	}
 }
 
-func TestStripBold(t *testing.T) {
+func TestStripBoldAndItalic(t *testing.T) {
 	var tests = []struct {
 		s    string
 		want string
 	}{
+		{"this is *italic*", "this is italic"},
 		{"this is **bold**", "this is bold"},
+		{"this is ***bold and italic***", "this is bold and italic"},
+		{"* this is a bullet", "* this is a bullet"},
 	}
 
 	for _, test := range tests {
-		got := stripBold(test.s)
+		got := stripBoldAndItalic(test.s)
 		if got != test.want {
 			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
 		}

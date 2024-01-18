@@ -16,7 +16,7 @@ func main() {
 		s = stripBlockquote(s)
 		s = stripHeading(s)
 		s = stripCode(s)
-		s = stripBold(s)
+		s = stripBoldAndItalic(s)
 		s = stripImage(s)
 		s = stripLink(s)
 		fmt.Println(s)
@@ -43,8 +43,11 @@ func stripCode(s string) string {
 }
 
 // return the string without bold tags
-func stripBold(s string) string {
-	return regexp.MustCompile(`\*\*`).ReplaceAllString(s, "")
+func stripBoldAndItalic(s string) string {
+	s = regexp.MustCompile(`\*{3}([^\*]+)\*{3}`).ReplaceAllString(s, `$1`)
+	s = regexp.MustCompile(`\*{2}([^\*]+)\*{2}`).ReplaceAllString(s, `$1`)
+	s = regexp.MustCompile(`\*([^\*]+)\*`).ReplaceAllString(s, `$1`)
+	return s
 }
 
 // return the string without links
