@@ -13,10 +13,10 @@ func main() {
 
 	for scanner.Scan() {
 		s := scanner.Text()
-		s = StripBlockquote(s)
-		s = StripHeadings(s)
-		s = StripCode(s)
-		s = StripBold(s)
+		s = stripBlockquote(s)
+		s = stripHeading(s)
+		s = stripCode(s)
+		s = stripBold(s)
 		fmt.Println(s)
 	}
 
@@ -26,21 +26,21 @@ func main() {
 }
 
 // return true of string is a blockquote
-func StripBlockquote(s string) string {
+func stripBlockquote(s string) string {
 	return regexp.MustCompile(`^>\s*(.*)`).ReplaceAllString(s, `$1`)
 }
 
 // return true of string is a blockquote
-func StripHeadings(s string) string {
+func stripHeading(s string) string {
 	return regexp.MustCompile(`^#+\s*(.*)`).ReplaceAllString(s, `$1`)
 }
 
 // return the string without code
-func StripCode(s string) string {
+func stripCode(s string) string {
 	return regexp.MustCompile("`[^`]*`").ReplaceAllString(s, `<CODE>`)
 }
 
-// return the string without code
-func StripBold(s string) string {
+// return the string without bold tags
+func stripBold(s string) string {
 	return regexp.MustCompile(`\*\*`).ReplaceAllString(s, "")
 }
