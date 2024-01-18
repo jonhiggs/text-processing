@@ -20,6 +20,7 @@ func main() {
 		s = stripBoldAndItalic(s)
 		s = stripImage(s)
 		s = stripLink(s)
+		s = stripLinkReference(s)
 		fmt.Println(s)
 	}
 
