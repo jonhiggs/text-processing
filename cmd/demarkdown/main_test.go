@@ -69,6 +69,10 @@ func TestStripBoldAndItalic(t *testing.T) {
 		{"this is **bold**", "this is bold"},
 		{"this is ***bold and italic***", "this is bold and italic"},
 		{"* this is a bullet", "* this is a bullet"},
+		{"this is _italic_", "this is italic"},
+		{"this is __bold__", "this is bold"},
+		{"this is ___bold and italic___", "this is bold and italic"},
+		{"_ this is a bullet", "_ this is a bullet"},
 	}
 
 	for _, test := range tests {
@@ -86,10 +90,36 @@ func TestStripLink(t *testing.T) {
 	}{
 		{"[x](y)", "x"},
 		{"one [two](three)", "one two"},
+		{"[section](#section_link)", "section"},
+		{"[link one](1), [link two](2)", "link one, link two"},
+		{"a [reference link][a]", "a reference link"},
+		{"a [reference link] [a] with a space", "a reference link with a space"},
 	}
 
 	for _, test := range tests {
 		got := stripLink(test.s)
+		if got != test.want {
+			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
+		}
+	}
+}
+
+func TestStripLinkReference(t *testing.T) {
+	var tests = []struct {
+		s    string
+		want string
+	}{
+		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle", ""},
+		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle \"Hobbit lifestyles\"", ""},
+		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle 'Hobbit lifestyles'", ""},
+		{"[1]: https://en.wikipedia.org/wiki/Hobbit#Lifestyle (Hobbit lifestyles)", ""},
+		{"[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> \"Hobbit lifestyles\"", ""},
+		{"[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> 'Hobbit lifestyles'", ""},
+		{"[1]: <https://en.wikipedia.org/wiki/Hobbit#Lifestyle> (Hobbit lifestyles)", ""},
+	}
+
+	for _, test := range tests {
+		got := stripLinkReference(test.s)
 		if got != test.want {
 			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
 		}
@@ -108,6 +138,27 @@ func TestStripImage(t *testing.T) {
 
 	for _, test := range tests {
 		got := stripImage(test.s)
+		if got != test.want {
+			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
+		}
+	}
+}
+
+func TestHorizontalRule(t *testing.T) {
+	var tests = []struct {
+		s    string
+		want string
+	}{
+		{"---", ""},
+		{"===", ""},
+		{"***", ""},
+		{"--", "--"},
+		{"==", "=="},
+		{"**", "**"},
+	}
+
+	for _, test := range tests {
+		got := stripHorizontalRule(test.s)
 		if got != test.want {
 			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
 		}

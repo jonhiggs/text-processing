@@ -15,6 +15,7 @@ func main() {
 		s := scanner.Text()
 		s = stripBlockquote(s)
 		s = stripHeading(s)
+		s = stripHorizontalRule(s)
 		s = stripCode(s)
 		s = stripBoldAndItalic(s)
 		s = stripImage(s)
@@ -42,11 +43,15 @@ func stripCode(s string) string {
 	return regexp.MustCompile("`[^`]*`").ReplaceAllString(s, `<CODE>`)
 }
 
-// return the string without bold tags
+// return the string without bold or italic tags
 func stripBoldAndItalic(s string) string {
 	s = regexp.MustCompile(`\*{3}([^\*]+)\*{3}`).ReplaceAllString(s, `$1`)
 	s = regexp.MustCompile(`\*{2}([^\*]+)\*{2}`).ReplaceAllString(s, `$1`)
 	s = regexp.MustCompile(`\*([^\*]+)\*`).ReplaceAllString(s, `$1`)
+
+	s = regexp.MustCompile(`_{3}([^_]+)_{3}`).ReplaceAllString(s, `$1`)
+	s = regexp.MustCompile(`_{2}([^_]+)_{2}`).ReplaceAllString(s, `$1`)
+	s = regexp.MustCompile(`_([^_]+)_`).ReplaceAllString(s, `$1`)
 	return s
 }
 
@@ -55,7 +60,37 @@ func stripLink(s string) string {
 	return regexp.MustCompile(`\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `$1`)
 }
 
+// return the string without link references
+func stripLinkReference(s string) string {
+	if regexp.MustCompile(`^\[[^]]+\]:\ `).MatchString(s) {
+		return ""
+	}
+
+	return s
+}
+
 // return the string without images   XXX: must be called before stripLink()
 func stripImage(s string) string {
 	return regexp.MustCompile(`!\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `[$1]`)
+}
+
+// return the string without horizontal lines.
+// This also removes the underline from headings when in the format of:
+//
+//	Heading
+//	-------
+func stripHorizontalRule(s string) string {
+	if regexp.MustCompile(`^={3,}$`).MatchString(s) {
+		return ""
+	}
+
+	if regexp.MustCompile(`^-{3,}$`).MatchString(s) {
+		return ""
+	}
+
+	if regexp.MustCompile(`^\*{3,}$`).MatchString(s) {
+		return ""
+	}
+
+	return s
 }
