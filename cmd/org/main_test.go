@@ -16,6 +16,8 @@ func TestSentences(t *testing.T) {
 		{"one. two.", "one.", "two.", 2},
 		{"one.  two.", "one.", "two.", 2},
 		{"one. two. three.", "one.", "three.", 3},
+		{"one.\ntwo.\nthree.", "one.", "three.", 3},
+		{"one.\ntwo.\nthree.\n\n\n\n", "one.", "three.", 3},
 	}
 
 	for _, test := range tests {
