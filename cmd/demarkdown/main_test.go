@@ -72,6 +72,8 @@ func TestStripBoldAndItalic(t *testing.T) {
 		{"this is _italic_", "this is italic"},
 		{"this is __bold__", "this is bold"},
 		{"this is ___bold and italic___", "this is bold and italic"},
+		{"one __bold__ and one _italic_", "one bold and one italic"},
+		{"this **is bold** and so is **this**", "this is bold and so is this"},
 		{"_ this is a bullet", "_ this is a bullet"},
 	}
 
@@ -94,6 +96,7 @@ func TestStripLink(t *testing.T) {
 		{"[link one](1), [link two](2)", "link one, link two"},
 		{"a [reference link][a]", "a reference link"},
 		{"a [reference link] [a] with a space", "a reference link with a space"},
+		{"[reference link a][a] and [reference link b] [b]", "reference link a and reference link b"},
 	}
 
 	for _, test := range tests {

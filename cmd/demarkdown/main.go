@@ -57,7 +57,9 @@ func stripBoldAndItalic(s string) string {
 
 // return the string without links
 func stripLink(s string) string {
-	return regexp.MustCompile(`\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `$1`)
+	s = regexp.MustCompile(`\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `$1`)
+	s = regexp.MustCompile(`\[([^]]*)\]\ ?\[.*\]`).ReplaceAllString(s, `$1`)
+	return s
 }
 
 // return the string without link references
