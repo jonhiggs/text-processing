@@ -93,7 +93,7 @@ func TestStripLink(t *testing.T) {
 		{"[x](y)", "x"},
 		{"one [two](three)", "one two"},
 		{"[section](#section_link)", "section"},
-		{"[link one](1), [link two](2)", "link one, link two"},
+		{"a [link one](1), and a [link two](2)", "a link one, and a link two"},
 		{"a [reference link][a]", "a reference link"},
 		{"a [reference link] [a] with a space", "a reference link with a space"},
 		{"[reference link a][a] and [reference link b] [b]", "reference link a and reference link b"},

@@ -57,8 +57,13 @@ func stripBoldAndItalic(s string) string {
 
 // return the string without links
 func stripLink(s string) string {
-	s = regexp.MustCompile(`\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `$1`)
-	s = regexp.MustCompile(`\[([^]]*)\]\ ?\[.*\]`).ReplaceAllString(s, `$1`)
+	// make sure it's not an image link
+	s = regexp.MustCompile(`([^!])\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `$1$2`)
+	s = regexp.MustCompile(`([^!])\[([^]]*)\]\ ?\[.*\]`).ReplaceAllString(s, `$1$2`)
+
+	// but also handle links at the start of the line
+	s = regexp.MustCompile(`^\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `$1`)
+	s = regexp.MustCompile(`^\[([^]]*)\]\ ?\[.*\]`).ReplaceAllString(s, `$1`)
 	return s
 }
 
@@ -71,7 +76,7 @@ func stripLinkReference(s string) string {
 	return s
 }
 
-// return the string without images   XXX: must be called before stripLink()
+// return the string without images
 func stripImage(s string) string {
 	return regexp.MustCompile(`!\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `[$1]`)
 }
