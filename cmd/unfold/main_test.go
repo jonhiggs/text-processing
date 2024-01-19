@@ -15,7 +15,7 @@ func TestIsUnfoldable(t *testing.T) {
 		{"- item", "- item", false},
 		{"word", "", false},
 		{"hyphenated-", "word", true},
-		{"", "", false},
+		{"", "", true},
 	}
 
 	for _, test := range tests {

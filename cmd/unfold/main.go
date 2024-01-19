@@ -44,6 +44,10 @@ func unfold(s, p string) string {
 
 // return true if s should be unfolded into p
 func isUnfoldable(s, p string) bool {
+	if strings.TrimSpace(p) == "" && strings.TrimSpace(s) == "" {
+		return true
+	}
+
 	if strings.TrimSpace(p) == "" {
 		return false
 	}
