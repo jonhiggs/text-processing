@@ -43,14 +43,16 @@ func TestStripHeading(t *testing.T) {
 	}
 }
 
+// must strip code fences before stripping code
 func TestStripCode(t *testing.T) {
 	var tests = []struct {
 		s    string
 		want string
 	}{
-		{"`code`", "<CODE>"},
-		{"a string with `code`", "a string with <CODE>"},
-		{"```python", "```python"},
+		{"`code`", "<....>"},
+		{"one `code` and two `codes`.", "one <....> and two <.....>."},
+		{"a string with `code`", "a string with <....>"},
+		//{"```python", "```python"},
 	}
 
 	for _, test := range tests {

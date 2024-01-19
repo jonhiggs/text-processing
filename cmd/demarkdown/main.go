@@ -82,8 +82,8 @@ func main() {
 			s = stripBlockquote(s)
 			s = stripHeading(s)
 			s = stripHorizontalRule(s)
-			s = stripCode(s)
 			s = stripCodeFence(s)
+			s = stripCode(s)
 			s = stripBoldAndItalic(s)
 			s = stripImage(s)
 			s = stripLink(s)
@@ -110,7 +110,28 @@ func stripHeading(s string) string {
 
 // return the string without code
 func stripCode(s string) string {
-	return regexp.MustCompile("`[^`]+`").ReplaceAllString(s, `<CODE>`)
+	inCode := false
+	var runes []rune
+
+	for _, char := range s {
+		if char == '`' {
+			if inCode {
+				runes = append(runes, '>')
+			} else {
+				runes = append(runes, '<')
+			}
+
+			inCode = !inCode
+		} else {
+			if inCode {
+				runes = append(runes, '.')
+			} else {
+				runes = append(runes, char)
+			}
+		}
+	}
+
+	return string(runes)
 }
 
 // return string without code fence
