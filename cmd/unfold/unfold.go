@@ -2,44 +2,75 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"log"
 	"os"
 	"strings"
-	"time"
-
-	"github.com/pborman/getopt/v2"
 )
 
 const (
 	VERSION = "0.0.0"
 )
 
-//helpFlag := getopt.Bool('?', "display help")
-//cmdFlag := getopt.StringLong("command", 'c', "default", "the command")
-
 var (
-	fileName = "/the/default/path"
-	timeout  = time.Second * 5
-	ver      bool
+	ver   = false
+	help  = false
+	files []*os.File
 )
 
 func init() {
-	getopt.FlagLong(&ver, "version", 'V', "show version")
-	getopt.FlagLong(&fileName, "path", 0, "the path")
-	getopt.FlagLong(&timeout, "timeout", 't', "some timeout")
+	for i, a := range os.Args {
+		if i == 0 {
+			continue
+		}
+
+		switch a {
+		case "-v", "--version":
+			ver = true
+		case "-h", "--help":
+			help = true
+		case "--":
+		default:
+			if strings.HasPrefix(a, "-") {
+				fmt.Printf("Unsupported flag '%s'.\n\n", a)
+				printHelp()
+				os.Exit(1)
+			}
+
+			f, err := os.Open(a)
+			if err != nil {
+				fmt.Println(fmt.Errorf("unfold: %s: %s", a, errors.Unwrap(err)))
+				os.Exit(1)
+			}
+
+			files = append(files, f)
+		}
+	}
+
+	if help {
+		printHelp()
+		os.Exit(0)
+	}
+
+	if ver {
+		printVersion()
+		os.Exit(0)
+	}
+
+	if len(files) == 0 {
+		files = append(files, os.Stdin)
+	}
 }
 
 func main() {
-	getopt.Parse()
-	args := getopt.Args()
+	for _, f := range files {
+		processFile(f)
+	}
+}
 
-	fmt.Println(args)
-
-	version()
-
-	scanner := bufio.NewScanner(os.Stdin)
-
+func processFile(f *os.File) {
+	scanner := bufio.NewScanner(f)
 	var p string
 
 	n := 0
@@ -66,13 +97,12 @@ func main() {
 	}
 }
 
-func version() {
-	fmt.Printf("unfold %s\n", VERSION)
-	os.Exit(0)
+func printHelp() {
+	fmt.Println("help goes here")
 }
 
-func Usage() string {
-	return fmt.Sprint("Whats this")
+func printVersion() {
+	fmt.Printf("unfold %s\n", VERSION)
 }
 
 // take two strings and unfold them into one
