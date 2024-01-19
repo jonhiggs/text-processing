@@ -1,0 +1,18 @@
+.Dd 2024-01-19
+.Dt unfold 1
+.Os
+.Sh NAME
+.Nm unfold
+.Nd combine lines, reversing the affects of fold(1).
+.Sh SYNOPSIS
+.Nm unfold
+[\fI\,FILE\/\fR]...
+.Sh DESCRIPTION
+The
+.Nm
+utility joins lines to create single-line paragraphs. Input is read from the supplied files or standard in if no files are provided.
+.Pp
+Leading and trailing whitespace is removed where it will interrupt the flow of a paragraph. Also duplicate empty lines are collapsed.
+.Pp
+Line breaks are preserved when they they add structure to the content, e.g. when separating list elements.
+
