@@ -6,21 +6,31 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strings"
 )
+
+var fenced = false
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for scanner.Scan() {
 		s := scanner.Text()
-		s = stripBlockquote(s)
-		s = stripHeading(s)
-		s = stripHorizontalRule(s)
-		s = stripCode(s)
-		s = stripBoldAndItalic(s)
-		s = stripImage(s)
-		s = stripLink(s)
-		s = stripLinkReference(s)
+
+		if isFenced(s) {
+			s = ""
+		} else {
+			s = stripBlockquote(s)
+			s = stripHeading(s)
+			s = stripHorizontalRule(s)
+			s = stripCode(s)
+			s = stripCodeFence(s)
+			s = stripBoldAndItalic(s)
+			s = stripImage(s)
+			s = stripLink(s)
+			s = stripLinkReference(s)
+		}
+
 		fmt.Println(s)
 	}
 
@@ -42,6 +52,15 @@ func stripHeading(s string) string {
 // return the string without code
 func stripCode(s string) string {
 	return regexp.MustCompile("`[^`]+`").ReplaceAllString(s, `<CODE>`)
+}
+
+// return string without code fence
+func stripCodeFence(s string) string {
+	if isFence(s) {
+		return ""
+	} else {
+		return s
+	}
 }
 
 // return the string without bold or italic tags
@@ -101,4 +120,18 @@ func stripHorizontalRule(s string) string {
 	}
 
 	return s
+}
+
+// tracks the state of whether the current line is within a code fence.
+func isFenced(s string) bool {
+	if isFence(s) {
+		fenced = !fenced
+	}
+
+	return fenced
+}
+
+// checks if the supplied string is detected as a fence.
+func isFence(s string) bool {
+	return regexp.MustCompile("^`{3}").MatchString(strings.TrimSpace(s))
 }

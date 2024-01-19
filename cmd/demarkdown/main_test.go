@@ -168,3 +168,21 @@ func TestHorizontalRule(t *testing.T) {
 		}
 	}
 }
+
+func TestIsFence(t *testing.T) {
+	var tests = []struct {
+		s    string
+		want bool
+	}{
+		{"```", true},
+		{"```shell", true},
+		{"  ```go", true},
+	}
+
+	for _, test := range tests {
+		got := isFence(test.s)
+		if got != test.want {
+			t.Errorf("'%s' = %v", test.s, test.want)
+		}
+	}
+}
