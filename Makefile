@@ -6,6 +6,8 @@ BINS := unfold org demarkdown
 build: $(addprefix build/,$(BINS)) $(addprefix build/man/,$(MANS))
 
 build/%: cmd/%/main.go
+	go mod tidy
+	go test cmd/$*/*.go
 	go build -o $@ $<
 
 build/man/%: export BUILD_DATE = $(shell date --iso-8601)
