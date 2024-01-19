@@ -1,6 +1,6 @@
 .PHONY: build
 
-MANS := unfold.1
+MANS := unfold.1 demarkdown.1 org.1
 BINS := unfold org demarkdown
 
 build: $(addprefix build/,$(BINS)) $(addprefix build/man/,$(MANS))
