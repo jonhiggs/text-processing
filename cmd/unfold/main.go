@@ -14,9 +14,9 @@ const (
 )
 
 var (
-	ver   = false
-	help  = false
-	files []*os.File
+	files   []*os.File
+	optHelp = false
+	optVer  = false
 )
 
 func init() {
@@ -32,9 +32,9 @@ func init() {
 
 		switch a {
 		case "-v", "--version":
-			ver = true
+			optVer = true
 		case "-h", "--help":
-			help = true
+			optHelp = true
 		case "--":
 		default:
 			if strings.HasPrefix(a, "-") {
@@ -53,12 +53,12 @@ func init() {
 		}
 	}
 
-	if help {
+	if optHelp {
 		printHelp()
 		os.Exit(0)
 	}
 
-	if ver {
+	if optVer {
 		printVersion()
 		os.Exit(0)
 	}
@@ -102,22 +102,6 @@ func processFile(f *os.File) {
 	}
 }
 
-func printHelp() {
-	h := `Usage: unfold [OPTION]... [FILE]...
-Combine lines, reversing the affects of fold(1).
-
-With no FILE, read standard input.
-
-  --version    print the version and exit
-  --help       display help and exit
-`
-	fmt.Println(h)
-}
-
-func printVersion() {
-	fmt.Printf("unfold %s\n", VERSION)
-}
-
 // take two strings and unfold them into one
 func unfold(s, p string) string {
 	return fmt.Sprintf("%s %s", p, strings.TrimSpace(s))
@@ -142,4 +126,20 @@ func isUnfoldable(s, p string) bool {
 	}
 
 	return true
+}
+
+func printHelp() {
+	h := `Usage: unfold [FILE]...
+Combine lines, reversing the affects of fold(1).
+
+With no FILE, read standard input.
+
+  --version    print the version and exit
+  --help       display help and exit
+`
+	fmt.Println(h)
+}
+
+func printVersion() {
+	fmt.Printf("unfold %s\n", VERSION)
 }
