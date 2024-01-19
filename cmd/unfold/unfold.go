@@ -6,9 +6,38 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
+
+	"github.com/pborman/getopt/v2"
 )
 
+const (
+	VERSION = "0.0.0"
+)
+
+//helpFlag := getopt.Bool('?', "display help")
+//cmdFlag := getopt.StringLong("command", 'c', "default", "the command")
+
+var (
+	fileName = "/the/default/path"
+	timeout  = time.Second * 5
+	ver      bool
+)
+
+func init() {
+	getopt.FlagLong(&ver, "version", 'V', "show version")
+	getopt.FlagLong(&fileName, "path", 0, "the path")
+	getopt.FlagLong(&timeout, "timeout", 't', "some timeout")
+}
+
 func main() {
+	getopt.Parse()
+	args := getopt.Args()
+
+	fmt.Println(args)
+
+	version()
+
 	scanner := bufio.NewScanner(os.Stdin)
 
 	var p string
@@ -35,6 +64,15 @@ func main() {
 	if err := scanner.Err(); err != nil {
 		log.Println(err)
 	}
+}
+
+func version() {
+	fmt.Printf("unfold %s\n", VERSION)
+	os.Exit(0)
+}
+
+func Usage() string {
+	return fmt.Sprint("Whats this")
 }
 
 // take two strings and unfold them into one
