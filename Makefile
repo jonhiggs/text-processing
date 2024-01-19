@@ -15,4 +15,4 @@ build/man/%:
 	cat man/$* | envsubst '$${BUILD_DATE}' > $@
 
 clean:
-	rm -f build/* build/man/*
+	rm -f $(addprefix build/,$(BINS)) $(addprefix build/man/,$(MANS))
