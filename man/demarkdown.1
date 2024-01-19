@@ -6,11 +6,14 @@
 .Nd print markdown without formatting
 .Sh SYNOPSIS
 .Nm demarkdown
-.\".Op Fl options
-.Oo
-.Ar
+[\fI\,FILE\/\fR]...
 .Sh DESCRIPTION
 The
 .Nm
 utility removes all formatting from markdown. This is helpful when performing
 text-processing in a pipeline.
+.Pp
+Any content that shouldn't be spell checked is either omitted or replaced. This is most noticeable for code blocks. When content is changed, lines are not added or removed to preserve the line numbering.
+.Sh "BUGS"
+.Nm demarkdown
+Does not handle tables.
