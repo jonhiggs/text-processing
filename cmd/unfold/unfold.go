@@ -25,6 +25,11 @@ func init() {
 			continue
 		}
 
+		// don't trip up when running the tests
+		if strings.HasPrefix(a, "-test.") {
+			continue
+		}
+
 		switch a {
 		case "-v", "--version":
 			ver = true
@@ -98,7 +103,15 @@ func processFile(f *os.File) {
 }
 
 func printHelp() {
-	fmt.Println("help goes here")
+	h := `Usage: unfold [OPTION]... [FILE]...
+Combine lines, reversing the affects of fold(1).
+
+With no FILE, read standard input.
+
+  --version    print the version and exit
+  --help       display help and exit
+`
+	fmt.Println(h)
 }
 
 func printVersion() {
