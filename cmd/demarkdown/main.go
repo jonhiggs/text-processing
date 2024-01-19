@@ -196,7 +196,7 @@ func isFence(s string) bool {
 }
 
 func printHelp() {
-	h := `Usage: demarkdown [OPTION]... [FILE]...
+	h := `Usage: demarkdown [FILE]...
 Remove formatting from Markdown documents.
 
 With no FILE, read standard input.
@@ -208,5 +208,5 @@ With no FILE, read standard input.
 }
 
 func printVersion() {
-	fmt.Printf("unfold %s\n", VERSION)
+	fmt.Printf("demarkdown %s\n", VERSION)
 }
