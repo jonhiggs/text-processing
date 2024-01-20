@@ -99,10 +99,10 @@ func flush(s *string, n *int) {
 		return
 	} else if len(ss) > 1 {
 		*n++
-		fmt.Printf("%2d  %s\n..  %s\n--\n", *n, ss[0], ss[len(ss)-1])
+		fmt.Printf("%2d  %s\n..  %s\n\n", *n, ss[0], ss[len(ss)-1])
 	} else {
 		*n++
-		fmt.Printf("%2d  %s\n--\n", *n, ss[0])
+		fmt.Printf("%2d  %s\n\n", *n, ss[0])
 	}
 
 	*s = ""
