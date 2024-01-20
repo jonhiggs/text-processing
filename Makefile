@@ -14,9 +14,9 @@ build/%: cmd/%/main.go
 	go build -o $@ $<
 
 build/man/%.gz: export BUILD_DATE = $(shell date --iso-8601)
-build/man/%.gz: | build/man/man1
-	cat man/$* | envsubst '$${BUILD_DATE}' > build/man/$*
-	gzip build/man/$*
+build/man/%.gz: man/% | build/man/man1
+	cat $< | envsubst '$${BUILD_DATE}' > build/man/$*
+	gzip -f build/man/$*
 
 doc/%.html: build/man/%.gz | doc/man1
 	zcat $< | groff -mandoc -Thtml > $@
