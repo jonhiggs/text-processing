@@ -13,7 +13,7 @@ The
 utility removes all formatting from markdown. This is helpful when performing
 text-processing in a pipeline.
 .Pp
-When content is stripped from the document, line numbers and column positions of the remaining content is preserved.
+When content is stripped from the document, the position of the remaining content is preserved.
 .Sh "BUGS"
 .Nm demarkdown
-does not handle tables.
+does not handle tables. It also doesn't handle parentheses in links.
