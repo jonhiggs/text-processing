@@ -1,6 +1,8 @@
 # Text Processing
 
-A collection of tools to assist document writing within the [roff](https://en.wikipedia.org/wiki/Roff_(software)) ecosystem (and its successors).
+A collection of tools to assist document writing. I've been developing an interest in the [roff](https://en.wikipedia.org/wiki/Roff_(software)) ecosystem (and its successors).
+
+## Tools
 
 - [`demarkdown(1)`][demarkdown.1]: print markdown without formatting.
 - [`org(1)`][org.1]: print the first and last sentence from each paragraph.
@@ -21,6 +23,6 @@ You may also be interested in these resources to learn more about text processin
 - [Unix Text Processing](https://www.oreilly.com/openbook/utp/). A book which heavily inspired this collection of tools.
 - [Practical UNIX Manuals: mdoc](https://manpages.bsd.lv/mdoc.html)
 
-[demarkdown.1]: https://htmlpreview.github.io/?https://github.com/jonhiggs/text-processing/blob/main/doc/demarkdown.1.html
-[org.1]: https://htmlpreview.github.io/?https://github.com/jonhiggs/text-processing/blob/main/doc/org.1.html
-[unfold.1]: https://htmlpreview.github.io/?https://github.com/jonhiggs/text-processing/blob/main/doc/unfold.1.html
+[demarkdown.1]: https://htmlpreview.github.io/?https://github.com/jonhiggs/text-processing/blob/main/doc/man1/demarkdown.1.html
+[org.1]: https://htmlpreview.github.io/?https://github.com/jonhiggs/text-processing/blob/main/doc/man1/org.1.html
+[unfold.1]: https://htmlpreview.github.io/?https://github.com/jonhiggs/text-processing/blob/main/doc/man1/unfold.1.html
