@@ -69,24 +69,26 @@ func init() {
 }
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
+	for _, f := range files {
+		scanner := bufio.NewScanner(f)
 
-	n := 0
-	var buf string
+		n := 0
+		var buf string
 
-	for scanner.Scan() {
-		s := scanner.Text()
-		if s == "" {
-			flush(&buf, &n)
-		} else {
-			buf += fmt.Sprintf("%s\n", s)
+		for scanner.Scan() {
+			s := scanner.Text()
+			if s == "" {
+				flush(&buf, &n)
+			} else {
+				buf += fmt.Sprintf("%s\n", s)
+			}
 		}
-	}
 
-	flush(&buf, &n)
+		flush(&buf, &n)
 
-	if err := scanner.Err(); err != nil {
-		log.Println(err)
+		if err := scanner.Err(); err != nil {
+			log.Println(err)
+		}
 	}
 }
 
