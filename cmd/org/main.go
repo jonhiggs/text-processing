@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -114,12 +115,21 @@ func sentences(p string) []string {
 	p = strings.Replace(p, ".\n", ". ", -1)
 	str := strings.Split(p, ". ")
 
+	var result []string
+
 	for i, s := range str {
+		str[i] = regexp.MustCompile(`\n`).ReplaceAllString(s, ` `)
+
 		if i != len(str)-1 {
-			str[i] = fmt.Sprintf("%s.", s)
+			str[i] = fmt.Sprintf("%s.", str[i])
 		}
 
 		str[i] = strings.TrimSpace(str[i])
+
+		// split again on \n and push them to the result
+		for _, x := range strings.Split(str[i], "\n") {
+			result = append(result, x)
+		}
 	}
 
 	return str
