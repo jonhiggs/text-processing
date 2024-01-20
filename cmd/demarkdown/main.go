@@ -71,30 +71,32 @@ func init() {
 }
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
+	for _, f := range files {
+		scanner := bufio.NewScanner(f)
 
-	for scanner.Scan() {
-		s := scanner.Text()
+		for scanner.Scan() {
+			s := scanner.Text()
 
-		if isFenced(s) {
-			s = ""
-		} else {
-			s = stripBlockquote(s)
-			s = stripHeading(s)
-			s = stripHorizontalRule(s)
-			s = stripCodeFence(s)
-			s = stripCode(s)
-			s = stripBoldAndItalic(s)
-			s = stripImage(s)
-			s = stripLink(s)
-			s = stripLinkReference(s)
+			if isFenced(s) {
+				s = ""
+			} else {
+				s = stripBlockquote(s)
+				s = stripHeading(s)
+				s = stripHorizontalRule(s)
+				s = stripCodeFence(s)
+				s = stripCode(s)
+				s = stripBoldAndItalic(s)
+				s = stripImage(s)
+				s = stripLink(s)
+				s = stripLinkReference(s)
+			}
+
+			fmt.Println(s)
 		}
 
-		fmt.Println(s)
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Println(err)
+		if err := scanner.Err(); err != nil {
+			log.Println(err)
+		}
 	}
 }
 
