@@ -1,6 +1,6 @@
 # Text Processing
 
-A collection of tools to assist document writing. I've been developing an interest in the [roff](https://en.wikipedia.org/wiki/Roff_(software)) ecosystem (and its successors).
+A collection of tools to assist document writing. I've been developing an interest in the [roff](https://en.wikipedia.org/wiki/Roff_%28software%29) ecosystem and its successors.
 
 ## Tools
 
@@ -18,7 +18,7 @@ The tools included in this repository complement existing tools.
 - [fold](https://www.gnu.org/software/coreutils/manual/html_node/fold-invocation.html)
 - [pic2img](https://github.com/sylsau/pic2img)
 
-You may also be interested in these resources to learn more about text processing on the command line:
+These resources may also be of interested:
 
 - [Unix Text Processing](https://www.oreilly.com/openbook/utp/). A book which heavily inspired this collection of tools.
 - [Practical UNIX Manuals: mdoc](https://manpages.bsd.lv/mdoc.html)
