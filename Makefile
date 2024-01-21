@@ -19,10 +19,11 @@ build/man/%.gz: man/% | build/man/man1
 	gzip -f build/man/$*
 
 doc/%.html: build/man/%.gz | doc/man1
-	zcat $< | groff -mandoc -Thtml > $@
+	zcat < $< | groff -mandoc -Thtml > $@
 
 install: prefix ?= /usr/local
 install:
+	mkdir -p /usr/local/share/man/man1
 	cp $(addprefix build/,$(BINS)) $(prefix)/bin
 	cp $(MANS:%=build/man/%.gz) $(prefix)/share/man/man1
 
