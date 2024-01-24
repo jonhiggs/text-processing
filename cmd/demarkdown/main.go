@@ -89,6 +89,7 @@ func main() {
 				s = stripImage(s)
 				s = stripLink(s)
 				s = stripLinkReference(s)
+				s = stripEscapeSequences(s)
 			}
 
 			fmt.Println(s)
@@ -201,6 +202,30 @@ func stripHorizontalRule(s string) string {
 		return ""
 	}
 
+	return s
+}
+
+// return string without the escape sequences
+func stripEscapeSequences(s string) string {
+	s = regexp.MustCompile(`\\\*`).ReplaceAllString(s, `*`)
+	s = regexp.MustCompile(`\\-`).ReplaceAllString(s, `-`)
+	s = regexp.MustCompile("\\\\`").ReplaceAllString(s, "`")
+	s = regexp.MustCompile(`\\_`).ReplaceAllString(s, `_`)
+	s = regexp.MustCompile(`\\{`).ReplaceAllString(s, `{`)
+	s = regexp.MustCompile(`\\}`).ReplaceAllString(s, `}`)
+	s = regexp.MustCompile(`\\\[`).ReplaceAllString(s, `[`)
+	s = regexp.MustCompile(`\\\]`).ReplaceAllString(s, `]`)
+	s = regexp.MustCompile(`\\<`).ReplaceAllString(s, `<`)
+	s = regexp.MustCompile(`\\>`).ReplaceAllString(s, `>`)
+	s = regexp.MustCompile(`\\\(`).ReplaceAllString(s, `(`)
+	s = regexp.MustCompile(`\\\)`).ReplaceAllString(s, `)`)
+	s = regexp.MustCompile(`\\#`).ReplaceAllString(s, `#`)
+	s = regexp.MustCompile(`\\\+`).ReplaceAllString(s, `+`)
+	s = regexp.MustCompile(`\\-`).ReplaceAllString(s, `-`)
+	s = regexp.MustCompile(`\\\.`).ReplaceAllString(s, `.`)
+	s = regexp.MustCompile(`\\\!`).ReplaceAllString(s, `!`)
+	s = regexp.MustCompile(`\\\|`).ReplaceAllString(s, `|`)
+	s = regexp.MustCompile(`\\\\`).ReplaceAllString(s, `\`)
 	return s
 }
 

@@ -171,6 +171,40 @@ func TestHorizontalRule(t *testing.T) {
 	}
 }
 
+func TestStripEscapeSequences(t *testing.T) {
+	var tests = []struct {
+		s    string
+		want string
+	}{
+		{"an asterisk (\\*)", "an asterisk (*)"},
+		{"a dash (\\-)", "a dash (-)"},
+		{"a backslash (\\\\)", "a backslash (\\)"},
+		{"a backtick (\\`)", "a backtick (`)"},
+		{"an underscore (\\_)", "an underscore (_)"},
+		{"a curly left brace (\\{)", "a curly left brace ({)"},
+		{"a curly right brace (\\})", "a curly right brace (})"},
+		{"a left bracket (\\[)", "a left bracket ([)"},
+		{"a right bracket (\\])", "a right bracket (])"},
+		{"a left angle bracket (\\<)", "a left angle bracket (<)"},
+		{"a right angle bracket (\\>)", "a right angle bracket (>)"},
+		{"a left parentheses (\\()", "a left parentheses (()"},
+		{"a right parentheses (\\))", "a right parentheses ())"},
+		{"a hash (\\#)", "a hash (#)"},
+		{"a plus (\\+)", "a plus (+)"},
+		{"a minus (\\-)", "a minus (-)"},
+		{"a dot (\\.)", "a dot (.)"},
+		{"an exclamation (\\!)", "an exclamation (!)"},
+		{"a pipe (\\|)", "a pipe (|)"},
+	}
+
+	for _, test := range tests {
+		got := stripEscapeSequences(test.s)
+		if got != test.want {
+			t.Errorf("'%s' = '%s', got '%s'", test.s, test.want, got)
+		}
+	}
+}
+
 func TestIsFence(t *testing.T) {
 	var tests = []struct {
 		s    string
