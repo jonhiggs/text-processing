@@ -15,10 +15,11 @@ const (
 )
 
 var (
-	fenced  = false
-	files   []*os.File
-	optHelp = false
-	optVer  = false
+	fenced         = false
+	files          []*os.File
+	optFrontmatter = true
+	optHelp        = false
+	optVer         = false
 )
 
 func init() {
@@ -37,6 +38,8 @@ func init() {
 			optVer = true
 		case "--help":
 			optHelp = true
+		case "-F", "--no-frontmatter":
+			optFrontmatter = false
 		case "--":
 		default:
 			if strings.HasPrefix(a, "-") {
@@ -71,13 +74,26 @@ func init() {
 }
 
 func main() {
+	var fnr int // file line number
 	for _, f := range files {
+		inFrontmatter := false
+		fnr = 0
 		scanner := bufio.NewScanner(f)
 
 		for scanner.Scan() {
 			s := scanner.Text()
+			fnr++
+
+			// detect if we're in a frontmatter block
+			if fnr == 1 && scanner.Text() == "---" {
+				inFrontmatter = true
+			} else if scanner.Text() == "---" && inFrontmatter {
+				inFrontmatter = false
+			}
 
 			if isFenced(s) {
+				s = ""
+			} else if inFrontmatter && !optFrontmatter {
 				s = ""
 			} else {
 				s = stripBlockquote(s)
@@ -252,6 +268,7 @@ Remove formatting from Markdown documents.
 
 With no FILE, read standard input.
 
+  -F, --no-frontmatter  omit the frontmatter
       --help            display help and exit
       --version         print the version and exit
 `
