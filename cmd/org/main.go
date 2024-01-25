@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"regexp"
 	"strings"
@@ -88,7 +87,8 @@ func main() {
 		flush(&buf, &n)
 
 		if err := scanner.Err(); err != nil {
-			log.Println(err)
+			fmt.Println(fmt.Errorf("org: %s", err))
+			os.Exit(1)
 		}
 	}
 }

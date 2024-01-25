@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 )
@@ -94,12 +93,12 @@ func processFile(f *os.File) {
 
 		n++
 	}
+	if err := scanner.Err(); err != nil {
+		fmt.Println(fmt.Errorf("unfold: %s", err))
+		os.Exit(1)
+	}
 
 	fmt.Printf("%s\n", p)
-
-	if err := scanner.Err(); err != nil {
-		log.Println(err)
-	}
 }
 
 // take two strings and unfold them into one

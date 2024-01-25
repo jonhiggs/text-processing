@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"regexp"
 	"strings"
@@ -112,7 +111,8 @@ func main() {
 		}
 
 		if err := scanner.Err(); err != nil {
-			log.Println(err)
+			fmt.Println(fmt.Errorf("demarkdown: %s", err))
+			os.Exit(1)
 		}
 	}
 }
