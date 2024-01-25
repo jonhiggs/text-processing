@@ -33,9 +33,9 @@ func init() {
 		}
 
 		switch a {
-		case "-v", "--version":
+		case "--version":
 			optVer = true
-		case "-h", "--help":
+		case "--help":
 			optHelp = true
 		case "--":
 		default:
@@ -252,8 +252,8 @@ Remove formatting from Markdown documents.
 
 With no FILE, read standard input.
 
-  --version    print the version and exit
-  --help       display help and exit
+      --help            display help and exit
+      --version         print the version and exit
 `
 	fmt.Println(h)
 }
