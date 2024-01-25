@@ -181,7 +181,10 @@ func stripLinkReference(s string) string {
 
 // return the string without images
 func stripImage(s string) string {
-	return regexp.MustCompile(`!\[([^]]*)\]\(.*\)`).ReplaceAllString(s, `[$1]`)
+	s = regexp.MustCompile(`!\[([^]]+)\]\(.*\)`).ReplaceAllString(s, `[$1]`)
+	s = regexp.MustCompile(`!\[\]\(.*\)`).ReplaceAllString(s, `[img]`)
+
+	return s
 }
 
 // return the string without horizontal lines.

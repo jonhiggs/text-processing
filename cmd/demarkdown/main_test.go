@@ -140,6 +140,7 @@ func TestStripImage(t *testing.T) {
 		{"![x](y)", "[x]"},
 		{"one ![two](three)", "one [two]"},
 		{"[x](y)", "[x](y)"},
+		{"![](y)", "[img]"},
 	}
 
 	for _, test := range tests {

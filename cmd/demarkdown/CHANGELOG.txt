@@ -4,6 +4,7 @@ CHANGELOG
 Unreleased
 ------------------------------------------
 - Strip the escaping from escaped characters.
+- Print [img] for images without alt text.
 
 
 demarkdown v0.1.0              2024-01-20
