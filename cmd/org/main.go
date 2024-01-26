@@ -72,19 +72,20 @@ func main() {
 	for _, f := range files {
 		scanner := bufio.NewScanner(f)
 
-		n := 0
 		var buf string
 
 		for scanner.Scan() {
 			s := scanner.Text()
-			if s == "" {
-				flush(&buf, &n)
+			if ignoredString(s) {
+				continue
+			} else if s == "" {
+				flush(&buf)
 			} else {
 				buf += fmt.Sprintf("%s\n", s)
 			}
 		}
 
-		flush(&buf, &n)
+		flush(&buf)
 
 		if err := scanner.Err(); err != nil {
 			fmt.Println(fmt.Errorf("org: %s", err))
@@ -93,20 +94,51 @@ func main() {
 	}
 }
 
-func flush(s *string, n *int) {
+// from a buffered paragraph of text, print the first an last sentences, then
+// empty the buffer.
+func flush(s *string) {
 	ss := sentences(*s)
 
-	if len(ss) == 1 && strings.TrimSpace(ss[0]) == "" {
+	// print the first sentence
+	if ss[0] == "" {
 		return
-	} else if len(ss) > 1 {
-		*n++
-		fmt.Printf("%2d  %s\n..  %s\n\n", *n, ss[0], ss[len(ss)-1])
 	} else {
-		*n++
-		fmt.Printf("%2d  %s\n\n", *n, ss[0])
+		fmt.Printf("%s", ss[0])
 	}
 
+	// print the last sentence
+	if len(ss) > 1 {
+		fmt.Printf(" %s", ss[len(ss)-1])
+	}
+
+	fmt.Printf("\n\n")
+
+	// empty the buffer
 	*s = ""
+}
+
+func ignoredString(s string) bool {
+	// ignore list items
+	if strings.HasPrefix(strings.TrimSpace(s), "- ") {
+		return true
+	}
+
+	// ignore bullet list items
+	if strings.HasPrefix(strings.TrimSpace(s), "* ") {
+		return true
+	}
+
+	// ignore numbered list items
+	if regexp.MustCompile(`^\ *\d+\. `).MatchString(s) {
+		return true
+	}
+
+	// ignore lettered list items
+	if regexp.MustCompile(`^\ *[a-z]+\) `).MatchString(s) {
+		return true
+	}
+
+	return false
 }
 
 // from a paragraph of text, return the sentences.

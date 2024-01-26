@@ -40,3 +40,29 @@ func TestSentences(t *testing.T) {
 		}
 	}
 }
+
+func TestIgnoredString(t *testing.T) {
+	var tests = []struct {
+		s    string
+		want bool
+	}{
+		{"Heading", false},
+		{"- list item", true},
+		{"* bullet item", true},
+		{"  * bullet item", true},
+		{"*bold*", false},
+		{"1. numbered list", true},
+		{"1.not-list", false},
+		{"a) lettered list", true},
+		{"", false},
+	}
+
+	for _, test := range tests {
+		got := ignoredString(test.s)
+
+		if got != test.want {
+			t.Errorf("%s = '%v'", test.s, test.want)
+		}
+	}
+
+}
